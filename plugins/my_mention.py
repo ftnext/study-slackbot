@@ -4,8 +4,8 @@ from slackbot.bot import listen_to      # チャネル内発言で反応する�
 link_list = ['https://nikkie-project.slack.com/archives/C7ZPKC2RM/p1510391262000028']
 
 @respond_to('だんない')
-def mention_dannnai(message):
-    # @Bot だんない に対して返答する
+def thank_you_for_dannnai(message):
+    # @Bot だんない に対してお礼を言う
     message.reply('ありがとうございます:taco:')
     message.react('grinning')
 
