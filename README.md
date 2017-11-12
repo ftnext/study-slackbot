@@ -14,4 +14,9 @@
     * Legacy Token取得
 * Botのコードの初期設定
 ---
+### 手順(2017/11/12)
+* 返答の高機能化
+    * respond_toの利用
+    * listen_toの利用
+---
 *ToBeContinued*
