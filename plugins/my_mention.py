@@ -21,7 +21,7 @@ def guide_to_new_menber(message):
 
 @listen_to('案内.*変更')
 @listen_to('案内.*変え')
-@respond_to('いま|今|現在.*案内')
+@respond_to('[いま|今|現在].*案内')
 def how_to_change_guide(message):
     # チャネルに投稿された 案内の変更に関する文言 に反応し、
     # 変更方法の案内をスレッドで返す
@@ -78,14 +78,16 @@ def delete_link_from_list(message):
         elif len(splited_text) >= 3:
             reply_msg = '複数のリンクが指定されたようです。申し訳ありませんが、一度に一つしか削除できません'
         else: # len(splited_text) == 2
-            delete_link_no = splited_text[1]
-            if not isinstance(delete_link_no, int):
+            try:
+                delete_link_no = int(splited_text[1])
+            except ValueError: # リンクの指定が数値でなかった場合
                 reply_msg = '削除するリンクが整数で指定されていないようです。整数値で指定してください'
-            else: # isinstance(delete_link_no, int) = True
-                # リストの範囲外のリンクが指定された場合
-                if int(delete_link_no) > len(link_list):
-                    reply_msg = '指定したリンクはありません。0から{}の間の整数で指定してください'.format(len(link_list)-1)
-                else:
-                    link_list.pop(int(delete_link_no)-1)
-                    reply_msg = '案内リストから削除しました'
+                message.reply(reply_msg, in_thread=True)
+                return
+            # リストの範囲外のリンクが指定された場合
+            if delete_link_no >= len(link_list):
+                reply_msg = '指定したリンクはありません。0から{}の間の整数で指定してください'.format(len(link_list)-1)
+            else: #int(delete_link_no) < len(link_list)
+                link_list.pop(delete_link_no)
+                reply_msg = '案内リストから削除しました'
     message.reply(reply_msg, in_thread=True)
