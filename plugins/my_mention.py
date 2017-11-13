@@ -37,7 +37,7 @@ def how_to_change_guide(message):
     explain = explain.format(current_links)
     message.reply(explain, in_thread=True)
 
-@respond_to('案内.*追加.*')
+@respond_to('案内.*追加')
 def add_link_list(message):
     global link_list
     if len(link_list) == 3:
@@ -45,7 +45,7 @@ def add_link_list(message):
     else: # len(link_list) <= 2
         text = message.body['text']
         # リンクの前にスペースを含ませるよう案内しているので、スペースで分割する
-        splited_text = text.split(' ')
+        splited_text = text.strip().split(' ')
         if len(splited_text) <= 1:
             reply_msg = 'リンクが含まれていないようです。案内リストに追加できませんでした'
         elif len(splited_text) >= 3:
@@ -62,4 +62,30 @@ def add_link_list(message):
                 add_link = add_link[1:len(add_link)-1]
                 link_list.append(add_link)
                 reply_msg = '案内リストに追加しました'
+    message.reply(reply_msg, in_thread=True)
+
+@respond_to('案内.*削除')
+def delete_link_from_list(message):
+    global link_list
+    if len(link_list) == 0:
+        reply_msg = '案内リストは0件です。削除できません'
+    else: # len(link_list) >= 1 and len(link_list) <= 3
+        text = message.body['text']
+        # 削除する数字番号の前にスペースを含ませるように案内しているので、スペースで分割する
+        splited_text = text.strip().split(' ')
+        if len(splited_text) <= 1:
+            reply_msg = '削除するリンクが指定されていないようです。削除できませんでした'
+        elif len(splited_text) >= 3:
+            reply_msg = '複数のリンクが指定されたようです。申し訳ありませんが、一度に一つしか削除できません'
+        else: # len(splited_text) == 2
+            delete_link_no = splited_text[1]
+            if not isinstance(delete_link_no, int):
+                reply_msg = '削除するリンクが整数で指定されていないようです。整数値で指定してください'
+            else: # isinstance(delete_link_no, int) = True
+                # リストの範囲外のリンクが指定された場合
+                if int(delete_link_no) > len(link_list):
+                    reply_msg = '指定したリンクはありません。0から{}の間の整数で指定してください'.format(len(link_list)-1)
+                else:
+                    link_list.pop(int(delete_link_no)-1)
+                    reply_msg = '案内リストから削除しました'
     message.reply(reply_msg, in_thread=True)
