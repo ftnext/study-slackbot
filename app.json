@@ -1,0 +1,20 @@
+{
+  "name": "study-slackbot",
+  "scripts": {
+  },
+  "env": {
+    "API_TOKEN": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
