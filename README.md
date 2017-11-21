@@ -18,11 +18,18 @@
 * 返答の高機能化
     * respond_toの利用
     * listen_toの利用
-
-*以上をmasterブランチに反映*
 ---
-### 手順(2017/11/14) 以降をdevelopブランチに反映
+### 手順(2017/11/14)
 * Slackの投稿のリンクを使い、案内を表示する機能を実装
     * 案内のカスタマイズ
         * 案内の追加
         * 案内の削除
+---
+### 手順(2017/11/21)
+* SlackアカウントからBot Integrationに切り替え
+* herokuにデプロイ
+    * 参考[Python × Herokuで作る 雑談slack bot](https://www.slideshare.net/dcubeio/python-heroku-slack-bot)
+        * API Tokenを環境変数に設定
+        * heroku用設定ファイル作成
+
+*以上をmasterブランチに反映*
